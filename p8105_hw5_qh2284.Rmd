@@ -141,7 +141,7 @@ all_data =
   unnest()
 ```
 
-**Tidy the result; manipulate file names to include control arm and subject ID, make sure weekly observations are \"tidy\", and do any other tidying that\'s necessary**
+**Tidy the result; manipulate file names to include control arm and subject ID, make sure weekly observations are "tidy", and do any other tidying that's necessary**
 
 ```{r}
 # tidy the data
@@ -218,7 +218,7 @@ mean_0
 # create a new function
 t_test_new = function(mu) {
   sample = tibble(rnorm(n = 30, mean = mu, sd = 5))
-  result = t.test(sample, alternative = "two.sided", conf.level = 0.95, mu = mu) %>% 
+  result = t.test(sample, alternative = "two.sided", conf.level = 0.95) %>% 
     broom::tidy() %>% 
     dplyr::select(estimate, p_value = p.value)
   return(result)
@@ -250,7 +250,7 @@ power_plot = mean_0to6 %>%
 power_plot
 ```
 
-Comment:
+Comment: From above we could observe that as true mean increases, the power also increases. In other words, the power increases as the effect size increases, and ultimately approaches 1. And we could observe that the slope of the curve is decreasing along the true mean.
 
 **Make a plot showing the average estimate of** $\hat{\mu}$ **on the y axis and the true value of** μ **on the x axis.**
 
@@ -270,6 +270,8 @@ compare_plot = esti %>%
 
 compare_plot
 ```
+
+Comment: From above, we could observe that the average estimate mean is quite close to true mean. The relationship between average estimate mean and true mean is approximately y = x.
 
 **Make a second plot (or overlay on the first) the average estimate of** $\hat{\mu}$ **only in samples for which the null was rejected on the y axis and the true value of** μ **on the x axis. Is the sample average of** $\hat{\mu}$ **across tests for which the null is rejected approximately equal to the true value of** $\mu$ **? Why or why not?**
 
@@ -292,4 +294,4 @@ ggplot() +
   scale_color_manual(values = c("esti" = "blue", "only_rej" = "red"))
 ```
 
-Comment:
+Comment: We could observe that when the true mean is between 1 and 4, the average estimate means of whose null are rejected are different from true mean (always larger). This might be because of the small power at small effect size. When true mean is greater than 4, the average estimate means of whose null are rejected are similar to the true mean.

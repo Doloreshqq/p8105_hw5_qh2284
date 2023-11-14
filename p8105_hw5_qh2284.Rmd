@@ -152,6 +152,7 @@ tidy_data =
     ID = str_sub(files, 5, 7)) %>% 
   pivot_longer(week_1:week_8,names_to = "week", values_to = "observation",names_prefix = "week_") %>% 
   mutate(week = as.numeric(week)) %>% 
+  mutate(observation = as.numeric(observation)) %>%
   dplyr::select(group, ID, week, observation)
 
 tidy_data
@@ -162,9 +163,9 @@ tidy_data
 ```{r}
 # make a spaghetti plot
 spa_plot = tidy_data %>%
-  ggplot(aes(x = week, y = observation, color = ID)) +
-  geom_line() +
-  geom_point() + 
+  ggplot(aes(x = week, y = observation, group = ID, color = group)) +
+  geom_path() +
+  geom_point() +
   facet_grid(~group) +
   labs(x = 'Week', y = 'Observation', title = 'Spaghetti plot of observations on each subject over time')
 
